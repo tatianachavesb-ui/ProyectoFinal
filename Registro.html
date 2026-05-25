@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="Titulos">Registrese</h1>
+  <form class="formu" id="formularioRegistro">
+    <label>Nombre</label>
+    <input type="text" name="Nombre" id="Nombre" required>
+
+    <label>Correo</label>
+    <input type="email" name="correo" id="correo" required>
+
+    <label>Usuario</label>
+    <input type="text" name="Usuario" id="Usuario" required>
+
+    <label>Contraseña</label>
+    <input type="password" name="Contraseña" id="Contraseña" required>
+
+    <label>Telefono</label>
+    <input type="text" name="Telefono" id="Telefono" required>
+    
+    <label>Ciudad</label>
+    <select name="Ciudad" id="Ciudad" required>
+      <option>Bogota</option>
+      <option>Medellin</option>
+      <option>Cali</option>
+    </select>
+    <input type="submit" value="Enviar">
+    <p>Ya tienes cuenta?</p>
+    <a href="login.html">Inicia sesion aqui</a>
+  </form>
+
+  <script>
+    document.getElementById('formularioRegistro').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const Nombre = document.getElementById('Nombre').value;
+      const correo = document.getElementById('correo').value;
+      const Usuario = document.getElementById('Usuario').value;
+      const Contraseña = document.getElementById('Contraseña').value;
+      const Telefono = document.getElementById('Telefono').value;
+      const Ciudad = document.getElementById('Ciudad').value;
+
+      fetch('http://localhost:5000/registro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ Nombre, correo, Usuario, Contraseña, Telefono, Ciudad })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.mensaje);
+        if (data.mensaje === 'Usuario registrado correctamente') {
+          window.location.href = 'login.html';
+        }
+      })
+      .catch(error => {
+        console.log('Error:', error);
+        alert('Error en la conexion');
+      });
+    });
+  </script>
+</body>
+</html>
